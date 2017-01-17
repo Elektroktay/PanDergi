@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "323009390851",
+    "firebase_url": "https://pan-dergi.firebaseio.com",
+    "project_id": "pan-dergi",
+    "storage_bucket": "pan-dergi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323009390851:android:9a89e623b1783d00",
+        "android_client_info": {
+          "package_name": "com.gmail.senokt16.pandergi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "323009390851-cspkbo3qbcofl5sniuriie5m1au0aold.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmail.senokt16.pandergi",
+            "certificate_hash": "E0B62F9D5286ED0868B875BCC6479807A94DE09D"
+          }
+        },
+        {
+          "client_id": "323009390851-d54j7h1vmaums1m56raurck3hlrsfuc0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjbpL64m2yZ5cg4-a1X4PXljwyYLG6LRQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "323009390851-d54j7h1vmaums1m56raurck3hlrsfuc0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

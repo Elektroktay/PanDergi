@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class MagazineList {
 
     private static DatabaseReference ref;
