@@ -1,10 +1,7 @@
 package com.gmail.senokt16.pandergi;
 
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -20,12 +17,9 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.gmail.senokt16.pandergi.data.Magazine;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
-
-import java.io.IOException;
 
 public class MagazineListActivity extends AppCompatActivity {
 
@@ -52,7 +46,7 @@ public class MagazineListActivity extends AppCompatActivity {
         GridLayoutManager lManager = new GridLayoutManager(this, 2);
         magazineListContent.setLayoutManager(lManager);
 
-        Query ref = FirebaseDatabase.getInstance().getReference("/sayilar/").orderByChild("publish").startAt(true).endAt(true);
+        Query ref = FirebaseDatabase.getInstance().getReference("/sayilar/").orderByChild("publish").equalTo(true);
         adapter = new FirebaseRecyclerAdapter<Magazine, MagazineViewHolder>(Magazine.class, R.layout.fragment_magazine, MagazineViewHolder.class, ref) {
             @Override
             protected void populateViewHolder(final MagazineViewHolder viewHolder, final Magazine model, int position) {
@@ -67,8 +61,8 @@ public class MagazineListActivity extends AppCompatActivity {
                 viewHolder.container.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(MagazineListActivity.this, IssueListActivity.class);
-                        intent.putExtra(IssueListActivity.EXTRA_MAGAZINE, model);
+                        Intent intent = new Intent(MagazineListActivity.this, ArticleListActivity.class);
+                        intent.putExtra(ArticleListActivity.EXTRA_MAGAZINE, model);
                         ActivityOptionsCompat options = ActivityOptionsCompat.
                                 makeSceneTransitionAnimation(MagazineListActivity.this, viewHolder.image, "magazineImage");
                         MagazineListActivity.this.startActivity(intent, options.toBundle());
