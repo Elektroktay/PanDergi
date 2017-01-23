@@ -12,4 +12,9 @@ public class Article implements Serializable{
     public String imageUrl;
     public String body;
     public boolean publish;
+
+    @Override
+    public String toString() {
+        return key + ">" + title + ">" + imageUrl;
+    }
 }
