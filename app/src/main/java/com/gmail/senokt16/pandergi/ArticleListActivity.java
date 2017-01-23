@@ -14,10 +14,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.gmail.senokt16.pandergi.data.Article;
 import com.gmail.senokt16.pandergi.data.Magazine;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
@@ -63,9 +65,55 @@ public class ArticleListActivity extends AppCompatActivity {
         }
 
         if (magazine != null && magazine.key != null) {
-            Query ref = FirebaseDatabase.getInstance().getReference("/yazilar/").orderByChild("issueId").equalTo(magazine.key);
+            DatabaseReference refKeys = FirebaseDatabase.getInstance().getReference("/sayilar/").child(magazine.key).child("articles");
+            Query refVals = FirebaseDatabase.getInstance().getReference("/yazilar/").orderByChild("category");
 
-            recyclerView.setAdapter(new FirebaseRecyclerAdapter<Article, ArticleViewHolder>(Article.class, R.layout.fragment_article, ArticleViewHolder.class, ref) {
+            recyclerView.setAdapter(new FirebaseIndexRecyclerAdapter<Article, ArticleViewHolder>(Article.class, R.layout.fragment_article, ArticleViewHolder.class, refKeys, refVals) {
+                @Override
+                protected void populateViewHolder(ArticleViewHolder viewHolder, Article model, int position) {
+                    if (model.title != null) {
+                        viewHolder.title.setVisibility(View.VISIBLE);
+                        viewHolder.title.setText(model.title);
+                    } else {
+                        viewHolder.title.setVisibility(View.GONE);
+                    }
+                    if (model.description != null) {
+                        viewHolder.description.setVisibility(View.VISIBLE);
+                        viewHolder.description.setText(model.description);
+                    } else {
+                        viewHolder.description.setVisibility(View.GONE);
+                    }
+                    if (model.category != null) {
+                        viewHolder.category.setVisibility(View.VISIBLE);
+                        viewHolder.category.setText(model.category);
+                    } else {
+                        viewHolder.category.setVisibility(View.GONE);
+                    }
+                    if (model.author != null) {
+                        viewHolder.author.setVisibility(View.VISIBLE);
+                        viewHolder.author.setText(model.author);
+                    } else {
+                        viewHolder.author.setVisibility(View.GONE);
+                    }
+                    if (model.imageUrl != null && model.imageUrl.length() > 0) {
+                        viewHolder.image.setVisibility(View.VISIBLE);
+                        StorageReference sRef = FirebaseStorage.getInstance().getReferenceFromUrl(model.imageUrl);
+                        Glide.with(ArticleListActivity.this)
+                                .using(new FirebaseImageLoader())
+                                .load(sRef)
+                                .into(viewHolder.image);
+                    } else {
+                        viewHolder.image.setVisibility(View.GONE);
+                    }
+                    viewHolder.container.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //TODO: Open Article Activity.
+                        }
+                    });
+                }
+            });
+/*            recyclerView.setAdapter(new FirebaseRecyclerAdapter<Article, ArticleViewHolder>(Article.class, R.layout.fragment_article, ArticleViewHolder.class, refKeys) {
                 @Override
                 protected void populateViewHolder(ArticleViewHolder viewHolder, Article model, int position) {
                     if (model.publish) {
@@ -107,7 +155,7 @@ public class ArticleListActivity extends AppCompatActivity {
                         viewHolder.container.setVisibility(View.GONE);
                     }
                 }
-            });
+            });*/
         } else {
             Toast.makeText(this, "Yazılar yüklenemedi!", Toast.LENGTH_SHORT).show();
         }
