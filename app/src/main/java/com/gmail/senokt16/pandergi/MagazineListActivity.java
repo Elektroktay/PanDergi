@@ -31,7 +31,6 @@ public class MagazineListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_magazine_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        magazineListContent = (RecyclerView) findViewById(R.id.magazine_list_content);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -43,8 +42,10 @@ public class MagazineListActivity extends AppCompatActivity {
             }
         });
 
+        magazineListContent = (RecyclerView) findViewById(R.id.magazine_list_content);
         GridLayoutManager lManager = new GridLayoutManager(this, 2);
         magazineListContent.setLayoutManager(lManager);
+        magazineListContent.setNestedScrollingEnabled(false);
 
         Query ref = FirebaseDatabase.getInstance().getReference("/sayilar/").orderByChild("publish").equalTo(true);
         adapter = new FirebaseRecyclerAdapter<Magazine, MagazineViewHolder>(Magazine.class, R.layout.fragment_magazine, MagazineViewHolder.class, ref) {

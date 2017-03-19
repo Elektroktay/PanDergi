@@ -44,11 +44,15 @@ public class ArticleListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_article_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         image = (ImageView) findViewById(R.id.issue_list_image);
         magazine = (Magazine) getIntent().getSerializableExtra(EXTRA_MAGAZINE);
+        getSupportActionBar().setTitle(magazine.title);
         recyclerView = (RecyclerView) findViewById(R.id.article_list_content);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setNestedScrollingEnabled(false);
 
         if (magazine.imageUrl != null && magazine.imageUrl.length() > 0) {
             supportPostponeEnterTransition();
@@ -78,46 +82,7 @@ public class ArticleListActivity extends AppCompatActivity {
             adapter = new FirebaseIndexRecyclerAdapter<Article, ArticleViewHolder>(Article.class, R.layout.fragment_article, ArticleViewHolder.class, refKeys, refVals) {
                 @Override
                 protected void populateViewHolder(ArticleViewHolder viewHolder, Article model, int position) {
-                    if (model.title != null) {
-                        viewHolder.title.setVisibility(View.VISIBLE);
-                        viewHolder.title.setText(model.title);
-                    } else {
-                        viewHolder.title.setVisibility(View.GONE);
-                    }
-                    if (model.description != null) {
-                        viewHolder.description.setVisibility(View.VISIBLE);
-                        viewHolder.description.setText(model.description);
-                    } else {
-                        viewHolder.description.setVisibility(View.GONE);
-                    }
-                    if (model.category != null) {
-                        viewHolder.category.setVisibility(View.VISIBLE);
-                        viewHolder.category.setText(model.category);
-                    } else {
-                        viewHolder.category.setVisibility(View.GONE);
-                    }
-                    if (model.author != null) {
-                        viewHolder.author.setVisibility(View.VISIBLE);
-                        viewHolder.author.setText(model.author);
-                    } else {
-                        viewHolder.author.setVisibility(View.GONE);
-                    }
-                    if (model.imageUrl != null && model.imageUrl.length() > 0) {
-                        viewHolder.image.setVisibility(View.VISIBLE);
-                        StorageReference sRef = FirebaseStorage.getInstance().getReferenceFromUrl(model.imageUrl);
-                        Glide.with(ArticleListActivity.this)
-                                .using(new FirebaseImageLoader())
-                                .load(sRef)
-                                .into(viewHolder.image);
-                    } else {
-                        viewHolder.image.setVisibility(View.GONE);
-                    }
-                    viewHolder.container.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //TODO: Open Article Activity.
-                        }
-                    });
+                    viewHolder.populateViewHolder(ArticleListActivity.this, model, position);
                 }
             };
             recyclerView.setAdapter(adapter);

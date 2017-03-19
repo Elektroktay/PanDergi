@@ -91,4 +91,5 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_issue_list">IssueListActivity</string>
+    <string name="title_activity_article">ArticleActivity</string>
 </resources>

@@ -21,7 +21,21 @@
         <activity
             android:name=".ArticleListActivity"
             android:label="@string/title_activity_issue_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:parentActivityName=".MagazineListActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gmail.senokt16.pandergi.MagazineListActivity" />
+            </activity>
+        <activity
+            android:name=".ArticleActivity"
+            android:label="@string/title_activity_article"
+            android:parentActivityName=".ArticleListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.gmail.senokt16.pandergi.ArticleListActivity" />
+        </activity>
     </application>
 
 </manifest>
