@@ -9,6 +9,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -27,7 +29,8 @@ import com.google.firebase.storage.FirebaseStorage;
 public class ArticleActivity extends AppCompatActivity {
 
     Article article;
-    TextView author, title, description, text;
+    TextView title, description, text;
+    RecyclerView authors;
     ImageView image;
     AppBarLayout appBarLayout;
     CollapsingToolbarLayout collapsingToolbar;
@@ -50,7 +53,7 @@ public class ArticleActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        author = (TextView) findViewById(R.id.author);
+        authors = (RecyclerView) findViewById(R.id.authors);
         title = (TextView) findViewById(R.id.title);
         description = (TextView) findViewById(R.id.description);
         text = (TextView) findViewById(R.id.text);
@@ -71,10 +74,12 @@ public class ArticleActivity extends AppCompatActivity {
         else
             getSupportActionBar().setTitle(article.title);
 
-        if (article.author != null)
-            author.setText(article.author);
+        if (article.author != null) {
+            authors.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            authors.setAdapter(new AuthorAdapter(article.author));
+        }
         else
-            author.setVisibility(View.GONE);
+            authors.setVisibility(View.GONE);
 
         if (article.title != null)
             title.setText(article.title);
